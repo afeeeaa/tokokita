@@ -6,7 +6,9 @@ import 'package:tokokita/widget/warning_dialog.dart';
 
 class ProdukForm extends StatefulWidget {
   Produk? produk;
+
   ProdukForm({Key? key, this.produk}) : super(key: key);
+
   @override
   _ProdukFormState createState() => _ProdukFormState();
 }
@@ -20,6 +22,7 @@ class _ProdukFormState extends State<ProdukForm> {
   final _kodeProdukTextboxController = TextEditingController();
   final _namaProdukTextboxController = TextEditingController();
   final _hargaProdukTextboxController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -65,7 +68,7 @@ class _ProdukFormState extends State<ProdukForm> {
     );
   }
 
-//Membuat Textbox Kode Produk
+  //Membuat Textbox Kode Produk
   Widget _kodeProdukTextField() {
     return TextFormField(
       decoration: const InputDecoration(labelText: "Kode Produk"),
@@ -80,7 +83,7 @@ class _ProdukFormState extends State<ProdukForm> {
     );
   }
 
-//Membuat Textbox Nama Produk
+  //Membuat Textbox Nama Produk
   Widget _namaProdukTextField() {
     return TextFormField(
       decoration: const InputDecoration(labelText: "Nama Produk"),
@@ -95,7 +98,7 @@ class _ProdukFormState extends State<ProdukForm> {
     );
   }
 
-//Membuat Textbox Harga Produk
+  //Membuat Textbox Harga Produk
   Widget _hargaProdukTextField() {
     return TextFormField(
       decoration: const InputDecoration(labelText: "Harga"),
@@ -110,7 +113,7 @@ class _ProdukFormState extends State<ProdukForm> {
     );
   }
 
-//Membuat Tombol Simpan/Ubah
+  //Membuat Tombol Simpan/Ubah
   Widget _buttonSubmit() {
     return OutlinedButton(
         child: Text(tombolSubmit),
@@ -154,27 +157,29 @@ class _ProdukFormState extends State<ProdukForm> {
   }
 
   ubah() {
-    setState(() {
-      _isLoading = true;
-    });
-    Produk updateProduk = Produk(id: null);
-    updateProduk.id = widget.produk!.id;
-    updateProduk.kodeProduk = _kodeProdukTextboxController.text;
-    updateProduk.namaProduk = _namaProdukTextboxController.text;
-    updateProduk.hargaProduk = int.parse(_hargaProdukTextboxController.text);
-    ProdukBloc.updateProduk(produk: updateProduk).then((value) {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) => const ProdukPage()));
-    }, onError: (error) {
-      print('error = $error');
-      showDialog(
-          context: context,
-          builder: (BuildContext context) => const WarningDialog(
-                description: "Permintaan ubah data gagal, silahkan cobalagi",
-              ));
-    });
-    setState(() {
-      _isLoading = false;
-    });
-  }
+ setState(() {
+ _isLoading = true;
+ });
+ Produk updateProduk = Produk(id: null);
+ updateProduk.id = widget.produk!.id;
+ updateProduk.kodeProduk = _kodeProdukTextboxController.text;
+ updateProduk.namaProduk = _namaProdukTextboxController.text;
+ updateProduk.hargaProduk =
+int.parse(_hargaProdukTextboxController.text);
+
+ ProdukBloc.updateProduk(produk: updateProduk).then((value) {
+ Navigator.of(context).push(MaterialPageRoute(
+ builder: (BuildContext context) => const ProdukPage()));
+ }, onError: (error) {
+ showDialog(
+ context: context,
+ builder: (BuildContext context) => const WarningDialog(
+ description: "Permintaan ubah data gagal, silahkan coba lagi",
+ ));
+ });
+ setState(() {
+ _isLoading = false;
+ });
+ }
 }
+
